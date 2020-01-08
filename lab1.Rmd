@@ -4,24 +4,39 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+
 library(rio)
 library(here)
+library(tidyverse)
+library(forcats)
 knitr::opts_chunk$set(echo = TRUE)
+
 
 ```
 
 
 ```{r load data}
+
 pth <- here("data", "rstats_tweets.rds")
 data <- import(pth)
+
 ```
 
-## Including Plots
+```{r commit 2}
 
-You can also embed plots, for example:
+#data cleaning 
+screen_name_data <- data %>% 
+  select(screen_name) %>% 
+  count(screen_name) %>% 
+  arrange(desc(n)) %>% 
+  slice(1:25) %>% 
+  mutate(screen_name = fct_reorder(screen_name, n))
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+#plot commit 2
+
+ggplot(screen_name_data, aes(x = screen_name, y = n)) +
+    geom_bar(stat = "identity") +
+    coord_flip()
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
