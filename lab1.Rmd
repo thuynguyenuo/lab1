@@ -12,9 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r load data}
-
-data <- import("~/Desktop/lab1/data/rstats_tweets.rds")
-
+pth <- here("data", "rstats_tweets.rds")
+data <- import(pth)
 ```
 
 ## Including Plots
