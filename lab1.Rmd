@@ -41,7 +41,7 @@ ggplot(screen_name_data, aes(x = screen_name, y = n)) +
 ```
 ```{r commit 3}
 ggplot(screen_name_data, aes(x = screen_name, y = n)) +
-    geom_bar(stat = "identity") +
-    coord_flip()+ labs(title = "Most prolific #rtats tweeters", x = "Twitter Screen Name", y = "Count")
+    geom_bar(stat = "identity", fill = "steelblue") +
+    coord_flip()+ labs(title = "Most prolific #rtats tweeters", x = "Twitter Screen Name", y = "Count", subtitle = "Top 25 screen names displayed", caption = "Data from Mike Kearny, distributed via #tidytuesday") + theme_minimal()
 ```
 
