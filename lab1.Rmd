@@ -45,7 +45,7 @@ ggplot(screen_name_data, aes(x = screen_name, y = n)) +
     coord_flip() + 
   labs(title = "Most prolific #rtats tweeters", x = "Twitter Screen Name", y = "Count", subtitle = "Top 25 screen names displayed", caption = "Data from Mike Kearny, distributed via #tidytuesday") +
   theme_minimal() +
-  theme(panel.background = element_blank()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  theme(panel.grid.major.y = element_blank(), panel.grid.major.x = element_line(color = "grey"))
   
   
 ```
