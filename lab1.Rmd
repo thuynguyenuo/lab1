@@ -9,6 +9,8 @@ library(rio)
 library(here)
 library(tidyverse)
 library(forcats)
+library(lubridate)
+library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE)
 
 
@@ -49,4 +51,23 @@ ggplot(screen_name_data, aes(x = screen_name, y = n)) +
   
   
 ```
+
+```{r commit 4, fig.width=5, fig.height=5}
+
+d2 <- data %>%
+  mutate(month = round_date(created_at, unit = "month")) %>%
+  filter(month < as_datetime("2019-01-01 00:00:00"))
+
+d3 <- d2 %>%
+  count(month)
+
+d3 %>%
+  ggplot(aes(month, n)) +
+  geom_line() +
+  geom_smooth(alpha = 0.3)
+
+```
+
+
+
 
