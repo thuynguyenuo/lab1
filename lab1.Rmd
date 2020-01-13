@@ -4,7 +4,6 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-
 library(rio)
 library(here)
 library(tidyverse)
@@ -18,17 +17,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r load data}
-
-pth <- here("data", "rstats_tweets.rds")
+# I actually got an error here without the namespacing because {lubridate} was
+# loaded after {here}
+pth <- here::here("data", "rstats_tweets.rds") 
 data <- import(pth)
 
+# Minor, but I would not assign your data object to "data" because that's also
+# a function in R, e.g., data(iris). Instead call it d or dta or df etc.
 ```
 
 ```{r commit 2}
-
 #data cleaning 
 screen_name_data <- data %>% 
-  select(screen_name) %>% 
+  #select(screen_name) %>% # Don't actually need this
   count(screen_name) %>% 
   arrange(desc(n)) %>% 
   slice(1:25) %>% 
@@ -37,28 +38,34 @@ screen_name_data <- data %>%
 #plot commit 2
 
 ggplot(screen_name_data, aes(x = screen_name, y = n)) +
-    geom_bar(stat = "identity") +
-    coord_flip()
-
+  geom_bar(stat = "identity") + # Use geom_col to avoid the `stat = "identity"`
+  coord_flip()
+# Two spaces on subsequent lines of ggplot code to stay consistent with your 
+# cleaning code
 ```
+
 ```{r commit 3}
 ggplot(screen_name_data, aes(x = screen_name, y = n)) +
-    geom_bar(stat = "identity", fill = "steelblue") +
-    coord_flip() + 
-  labs(title = "Most prolific #rtats tweeters", x = "Twitter Screen Name", y = "Count", subtitle = "Top 25 screen names displayed", caption = "Data from Mike Kearny, distributed via #tidytuesday") +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() + 
+  labs(title = "Most prolific #rtats tweeters", 
+       x = "Twitter Screen Name", 
+       y = "Count", 
+       subtitle = "Top 25 screen names displayed", 
+       caption = "Data from Mike Kearny, distributed via #tidytuesday") +
   theme_minimal() +
-  theme(panel.grid.major.y = element_blank(), panel.grid.major.x = element_line(color = "grey"))
-  
-  
+  theme(panel.grid.major.y = element_blank(), 
+        panel.grid.major.x = element_line(color = "grey"))
+
+# Made some code styling adjustments but otherwise looks great!  
 ```
 
 ```{r commit 4, fig.width=5, fig.height=5}
-
 d2 <- data %>%
   mutate(month = round_date(created_at, unit = "month")) %>%
   filter(month < as_datetime("2019-01-01 00:00:00"))
 
-d3 <- d2 %>%
+d3 <- d2 %>% # Consider calling this "counts" or something else more meaningful
   count(month)
 
 d3 %>%
@@ -81,6 +88,8 @@ d3 %>%
        x = "Year (data summarized by month)",
        y = "Number of #rstats tweets",
        caption = "Data from Mike Kearny, distributed via #tidytuesday")
-
+# Looks great! I'd recommend having arguments on separate lines but it looks
+# okay in this case. Just make sure your code doesn't spill over 80 characters.
+# You can setup rulers in your editor to help with that.
 ```
 
